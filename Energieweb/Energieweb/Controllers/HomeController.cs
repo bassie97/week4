@@ -38,7 +38,7 @@ namespace Energieweb.Controllers
             
             while(reader.HasRows && reader.Read())
             {
-                apparaat = apparaat + reader["naam"] + " ";
+                apparaat = apparaat + (string) reader["naam"] + " ";
                 ViewBag.Test = reader.FieldCount;
             }
             

@@ -6,16 +6,14 @@ using System.Web.Mvc;
 using System.Data;
 using System.Configuration;
 using MySql.Data.MySqlClient;
+using Energieweb.Helpers;
+using System.Collections;
 
 namespace Energieweb.Controllers
 {
     public class HomeController : Controller
     {
-        MySql.Data.MySqlClient.MySqlConnection conn;
-        MySql.Data.MySqlClient.MySqlCommand cmd;
-        MySql.Data.MySqlClient.MySqlDataReader reader;
-        string query;
-        string apparaat = "";
+        Database database = new Database();
         public ActionResult Index()
         {
             return View();
@@ -23,30 +21,15 @@ namespace Energieweb.Controllers
 
         public ActionResult About()
         {
-            System.Diagnostics.Debug.WriteLine("asdfasdfasdfasdf");
-            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["constr"].ToString();
-            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-            conn.Open();
-            query = "";
-            ///query = "INSERT INTO `apparaat`(`id`, `naam`, `max`, `merk`, `type_fk`) VALUES (10,'theelepel',10,'lepelBV',1)";
-            query = "SELECT * FROM apparaat;";
-            cmd = new MySql.Data.MySqlClient.MySqlCommand(query, conn);
-            
-            reader = cmd.ExecuteReader();
-            
-            conn.Close();
-            
-            while(reader.HasRows && reader.Read())
+            ViewBag.Message = "test";
+            Result resultaat = database.ExecuteQuery("Select * from apparaat;");
+            foreach (ArrayList result in resultaat.Dataset)
             {
-                apparaat = apparaat + (string) reader["naam"] + " ";
-                ViewBag.Test = reader.FieldCount;
+                foreach (object result1 in result)
+                {
+                    ViewBag.Message += result1.ToString();
+                }
             }
-            
-            System.Diagnostics.Debug.WriteLine("resultaat:" + apparaat.ToString());
-            System.Diagnostics.Debug.WriteLine("asdfasdfasdfasdf");
-            ViewBag.Message = "test" + apparaat.ToString();
-            ViewBag.Test = apparaat;
-            reader.Close();
             return View();
         }
 

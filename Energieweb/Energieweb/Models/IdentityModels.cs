@@ -29,5 +29,7 @@ namespace Energieweb.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Energieweb.Models.Apparaat> Apparaats { get; set; }
     }
 }

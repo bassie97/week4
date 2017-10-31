@@ -16,5 +16,10 @@ namespace Energieweb.Helpers
         public string Message { get => message; set => message = value; }
         public bool Succes { get => succes; set => succes = value; }
         public ArrayList Dataset { get => dataset; set => dataset = value; }
+
+        public object GetFirstValue()
+        {
+            return this.dataset[0];
+        }
     }
 }
